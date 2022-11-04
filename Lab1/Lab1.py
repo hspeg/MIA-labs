@@ -129,6 +129,45 @@ def Question2(image):
     
     plt.show()
     
+def Question3(image):
+    
+    fig, axes = plt.subplots(2, 4, figsize=(8, 8), sharex=False, sharey=True)
+    ax = axes.ravel()
+    
+    im1 = gaussianNoise(image, 10)
+    im2 = gaussianNoise(image, 20)
+    im3 = gaussianNoise(image, 40)
+    im4 = gaussianNoise(image, 80)
+    
+    im5 = saltAndPepperNoise(image, 100)
+    im6 = saltAndPepperNoise(image, 1000)
+    im7 = saltAndPepperNoise(image, 10000)
+    im8 = saltAndPepperNoise(image, 100000)
+    
+    ax[0].set_title("NLM filtering gauss")
+    ax[0].imshow(anisotropic_diffusion(im1), cmap='gray')
+    
+    ax[1].imshow(anisotropic_diffusion(im2), cmap='gray')
+    
+    ax[2].imshow(anisotropic_diffusion(im3), cmap='gray')
+    
+    ax[3].imshow(anisotropic_diffusion(im4), cmap='gray')
+    
+    ax[4].set_title("NLM filtering S&P")
+    ax[4].imshow(anisotropic_diffusion(im5), cmap='gray')
+    
+    ax[5].imshow(anisotropic_diffusion(im6), cmap='gray')
+    
+    ax[6].imshow(anisotropic_diffusion(im7), cmap='gray')
+    
+    ax[7].imshow(anisotropic_diffusion(im8), cmap='gray')
+    
+    for a in ax:
+        a.set_axis_off()
+    
+    plt.show()
+    
+    
 ##############################################################################
  
 im1 = io.imread('Images/Brain.tif')
@@ -136,12 +175,19 @@ im2 = io.imread('Images/Chest_CT.tif')
 
 ##############################################################################
 
-# im_aniso = anisotropic_diffusion(im)
-# showImageGray(im_aniso,'Anisotropic filter')
+#im11 = gaussianNoise(im1, 40)
+
+floatIm1 = im1.astype(float)
+
+im_aniso = anisotropic_diffusion(floatIm1)
+
+showImageGray(im_aniso,'Anisotropic filter')
+
+
 
 ################Question 1####################################################
 
-Question1(im1)
+#Question1(im1)
 
 ################Question 2####################################################
 
@@ -149,4 +195,4 @@ Question1(im1)
 
 ################Question 3####################################################
 
-
+#Question3(im1)
