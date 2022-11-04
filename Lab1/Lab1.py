@@ -177,9 +177,8 @@ im2 = io.imread('Images/Chest_CT.tif')
 
 #im11 = gaussianNoise(im1, 40)
 
-floatIm1 = im1.astype(float)
 
-im_aniso = anisotropic_diffusion(floatIm1)
+im_aniso = anisotropic_diffusion(im1)
 
 showImageGray(im_aniso,'Anisotropic filter')
 
