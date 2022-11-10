@@ -1,75 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Oct 26 11:37:23 2022
+Created on Thu Nov 10 18:22:20 2022
 
 @author: hugos
 """
 
-from random import gauss, randint
-
-from skimage import io 
-from skimage import data
-import matplotlib.pyplot as plt
 import numpy as np
-from random import gauss, randint
-
-from medpy.filter.smoothing import anisotropic_diffusion
-from medpy.io import load
-
+import matplotlib
+import matplotlib.pyplot as plt
+import skimage.io as io
 import skimage.filters as flt
+import numpy as np
 import scipy.ndimage.filters as flt
 import warnings
-
-##############################################################################
-
-def gaussianNoise(image, sigma):
-    r"""
-    Parameters
-    ----------
-    image : ndarray
-        Input image to be noised, which should be 2D and grayscale.
-    sigma : float
-        Standard deviation of gaussian distribution used for noising.
-
-    Returns
-    -------
-    im : ndarray
-        Noised image, of same shape as `image`.
-
-    """
-    im = image.copy()
-    for i in range(image.shape[0]):
-        for j in range(image.shape[1]):
-            res = -1
-            while res < 0 or res > 256 :
-                res = gauss(image[i,j], sigma)
-            im[i,j] = res 
-    return im
-
-def saltAndPepperNoise(image,rang):
-    r"""
-    Parameters
-    ----------
-    image : 2D ndarray
-        Input image to be noised, which should be 2D and grayscale.
-    rang : int
-        Number of iteration used for noising.
-
-    Returns
-    -------
-    im : TYPE
-        Noised image, of same shape as `image`.
-
-    """
-    im = image.copy()
-    for i in range(rang):
-        color = 0
-        if(randint(0, 1)): 
-            color = 255
-        i = randint(0, image.shape[0]-1)
-        j = randint(0, image.shape[1]-1)
-        im[i,j] = color
-    return im
 
 def anisodiff(img,niter=1,kappa=50,gamma=0.1,step=(1.,1.),sigma=0, option=1,ploton=False):
 	"""
@@ -203,14 +146,33 @@ def anisodiff(img,niter=1,kappa=50,gamma=0.1,step=(1.,1.),sigma=0, option=1,plot
 			# sleep(0.01)
 
 	return imgout
-   
-##############################################################################
+
 img=io.imread('Images/Brain.tif')
 img=img.astype(float)
+#img=img[300:600,300:600]
+m=np.mean(img)
+s=np.std(img)
+nimg=(img-m)/s
+plt.imshow(nimg)
+plt.colorbar()
 
-toto = gaussianNoise(img, 1)
+plt.figure(figsize=(16,9))
+fimg=anisodiff(nimg,100,80,0.075,(1,1),2.5,1)
+plt.subplot(2,3,1)
+plt.imshow(nimg)
+plt.title('Original')
+plt.subplot(2,3,2)
+#plt.imshow(fimg,vmin=-1,vmax=1)
+plt.imshow(fimg, cmap='gray')
+plt.title('Filtered')
+plt.subplot(2,3,3)
+plt.imshow(fimg-nimg)
+plt.title('Difference')
+plt.subplot(2,3,4)
+h=np.histogram(nimg,100)
+plt.plot(h[0])
 
-titi = anisodiff(toto,100,80,0.075,(1,1),2.5,1)
+plt.subplot(2,3,5)
+h,ax=np.histogram(fimg,100)
 
-plt.figure()
-plt.imshow(titi, cmap = 'gray')
+plt.plot(ax[0:(np.size(h))],h)
