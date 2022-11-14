@@ -14,7 +14,7 @@ plt.close('all')
 
 #Threshold#####################################################################
 
-image = io.imread('Images/Cancer.tif')
+#image = io.imread('Images/Cancer.tif')
 image=image[:,:,0]
 #image = data.camera()
 thresh = threshold_otsu(image)
