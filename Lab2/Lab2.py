@@ -14,7 +14,8 @@ plt.close('all')
 
 #Threshold#####################################################################
 
-image = io.imread('Images/Brain.tif')
+image = io.imread('Images/Cancer.tif')
+image=image[:,:,0]
 #image = data.camera()
 thresh = threshold_otsu(image)
 binary = image > thresh
@@ -68,9 +69,7 @@ x1, y1, x2, y2 = 28, 28, 44, 52
 r1, r2 = 16, 20
 mask_circle1 = (x - x1)**2 + (y - y1)**2 < r1**2
 mask_circle2 = (x - x2)**2 + (y - y2)**2 < r2**2
-# image = np.logical_or(mask_circle1, mask_circle2)
-# image = io.imread('Images/Brain.tif')
-image = data.coins()
+image = np.logical_or(mask_circle1, mask_circle2)
 
 # Now we want to separate the two objects in image
 # Generate the markers as local maxima of the distance to the background
