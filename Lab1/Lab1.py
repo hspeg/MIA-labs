@@ -205,12 +205,3 @@ def anisodiff(img,niter=1,kappa=50,gamma=0.1,step=(1.,1.),sigma=0, option=1,plot
 	return imgout
    
 ##############################################################################
-img=io.imread('Images/Brain.tif')
-img=img.astype(float)
-
-toto = gaussianNoise(img, 1)
-
-titi = anisodiff(toto,100,80,0.075,(1,1),2.5,1)
-
-plt.figure()
-plt.imshow(titi, cmap = 'gray')
