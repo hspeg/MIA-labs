@@ -58,7 +58,7 @@ def plot_img_and_hist(image, axes, bins=256):
 
 
 # Load an example image
-img = io.imread('Images/toto.tif')
+img = io.imread('Images/ChestCT.tif')
 img = np.array(img, dtype='int')
 
 # Contrast stretching
